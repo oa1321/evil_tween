@@ -1,0 +1,47 @@
+dnsmasq commands - 
+sudo ifconfig wlx000f005d5479 up 192.168.2.1 netmask 255.255.255.0
+sudo dnsmasq -C dnsmasq.conf -d
+
+hostapd commands - 
+sudo hostapd hostapd.conf 
+
+iptabels - *used for routing the trafic *i can change enp3s0 to wlan
+sudo iptables --table nat --append POSTROUTING --out-interface enp3s0 -j MASQUERADE
+sudo iptables --append FORWARD --in-interface wlx000f005d5479 -j ACCEPT
+
+
+futere me- 
+
+please run the hostapd first and the the dnsmasq and iptables
+
+
+someone in github says that if there are problems, run the follwoing commands
+
+sudo nmcli radio wifi off
+sudo rfkill unblock wlan
+sudo systenctl start hostapd
+
+"echo 1 > /proc/sys/net/ipv4/ip_forward"
+
+
+
+nodogsplash- captive portal
+
+sudo apt install git libmicrohttpd-dev build-essential
+git clone https://github.com/nodogsplash/nodogsplash.git
+
+cd ~/nodogsplash
+make
+sudo make install
+
+in conf file- 
+GatewayInterface wlan0
+GatewayAddress 192.168.220.1
+MaxClients 250
+AuthIdleTimeout 480
+
+sudo nodogsplash
+
+https://pimylifeup.com/raspberry-pi-captive-portal/
+/etc/nodogsplash/htdocs/splash.html
+
