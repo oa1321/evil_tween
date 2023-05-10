@@ -34,11 +34,13 @@ cd ~/nodogsplash
 make
 sudo make install
 
-in conf file- 
+etc/nodogsplash/nodogsplash.conf
+in conf file-  ******only change the gataway interface in the conf file*****
 GatewayInterface wlan0
 GatewayAddress 192.168.220.1
 MaxClients 250
 AuthIdleTimeout 480
+
 
 sudo nodogsplash
 
