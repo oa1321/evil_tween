@@ -22,6 +22,13 @@ class Defance:
             os.system(f"iwconfig {self.listen_iface} channel {self.chanel_number+1}")
             self.chanel_number = (self.chanel_number+1)%13
 
+    def kill_wifi(self, target_mac, gateway_mac):
+        dot11 = Dot11(addr1=target_mac, addr2=gateway_mac, addr3=gateway_mac,type=0, subtype=12)
+        # stack them up
+        pkt = RadioTap()/dot11/Dot11Deauth(reason=7)
+        # send the packet
+        sendp(pkt, count=70000, iface=self.listen_iface, verbose=3)
+
     def sniff_attack(self):
         def print_packet(pkt):
             if pkt.haslayer(Dot11Deauth):
@@ -37,7 +44,9 @@ class Defance:
                 print(pkt.addr1, pkt.addr2)
                 if self.users.get(pkt.addr2,False):
                     if pkt.addr1 != self.user_to_network[pkt.addr2]: 
-                        print("A vicitem connecting to suspisce network")
+                        print("A vicitem connecting to suspisce network, dissconnect him!")
+                        self.kill_wifi(pkt.addr2, pkt.addr1)
+                       
 
         x = Thread(target=self.change_channel, args=())
         x.start()
