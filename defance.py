@@ -57,7 +57,12 @@ class Defance:
 
 #b4:b5:b6:f2:4d:17
 #b6:4c:4a:86:33:24
-a = Defance('wlxc4e9841c43b9','c4:e9:84:1c:43:b9')
+os.system("ip l")
+print("enter the network interface and mac")
+x = input()#interface
+y = input()#mac
+
+a = Defance(x,y)
 a.sniff_attack()
 #a.kill_wifi('b4:b5:b6:f2:4d:17','b6:4c:4a:86:33:24')
 #a.reset_ap()
